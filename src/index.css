@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * PROYECTO MENTOR — Estilos globales.
+ * Paleta "Obsidian Sage": Esmeralda oscuro sobre carbón cálido.
+ */
+
+@layer base {
+  body {
+    @apply bg-pm-bg text-pm-text font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Scrollbar minimalista */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Focus ring con acento esmeralda */
+*:focus-visible {
+  outline: 2px solid #3D9A6E;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Animaciones utilitarias */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out both;
+}
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out both;
+}
+

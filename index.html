@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proyecto Mentor - Asistente de Estudio Proactivo</title>
+
+    <!-- 
+      [FUENTES Y TIPOGRAFÍA]
+      Importamos la fuente 'Inter' desde Google Fonts para darle un aspecto visual impecable.
+      Para cambiar la fuente, puedes reemplazar este enlace y actualizar 'fontFamily' en tailwind.config.js
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-mentor-dark text-mentor-text antialiased selection:bg-mentor-accent selection:text-mentor-dark overflow-hidden">
+    <!-- Punto de montaje de la aplicación React -->
+    <div id="root"></div>
+
+    <!-- Carga del bundle de React gestionado por Vite -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

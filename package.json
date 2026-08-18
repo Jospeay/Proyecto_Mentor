@@ -1,0 +1,43 @@
+{
+  "name": "proyecto-mentor",
+  "productName": "Proyecto Mentor",
+  "version": "1.0.0",
+  "description": "Asistente de estudio proactivo y estricto para estudiantes universitarios",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:start": "electron ."
+  },
+  "keywords": [
+    "electron",
+    "react",
+    "tailwind",
+    "estudio",
+    "mentor",
+    "productividad"
+  ],
+  "author": "Equipo Proyecto Mentor",
+  "license": "MIT",
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "firebase": "^12.17.1",
+    "framer-motion": "^13.1.0",
+    "lucide-react": "^0.344.0",
+    "playwright-core": "^1.62.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sonner": "^2.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.19",
+    "electron": "^29.1.5",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.6"
+  }
+}
