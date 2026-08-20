@@ -45,7 +45,7 @@ export default function AntiBurnoutModal({ isOpen, onClose, hoursStudied = 4.2, 
         </div>
 
         {/* Recomendación Estricta */}
-        <div className="p-3 bg-pm-surface border border-pm-border rounded-pm text-xs space-y-1">
+        <div className="p-3 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl text-xs space-y-1">
           <span className="text-pm-accent font-semibold block">💬 Exigencia del Mentor:</span>
           <p className="text-pm-subtle">
             "Toma una pausa de al menos 30 minutos sin pantallas antes de continuar. Tus tareas pendientes han sido protegidas."
@@ -59,7 +59,7 @@ export default function AntiBurnoutModal({ isOpen, onClose, hoursStudied = 4.2, 
               if (onTakeBreak) onTakeBreak();
               onClose();
             }}
-            className="flex-1 py-2.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-xs font-medium transition-colors flex items-center justify-center gap-1.5"
+            className="flex-1 py-2.5 rounded-full btn-primary text-xs font-medium transition-colors flex items-center justify-center gap-1.5"
           >
             <Coffee className="w-4 h-4" />
             <span>Tomar Descanso de 30 min</span>

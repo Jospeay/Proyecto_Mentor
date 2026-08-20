@@ -95,7 +95,7 @@ export default function FileDropZone({
         } ${
           isDragOver
             ? 'border-pm-accent bg-pm-accent/10 scale-[1.01] shadow-lg shadow-pm-accent/5'
-            : 'border-pm-border hover:border-pm-accent/50 bg-pm-card/40 hover:bg-pm-card/70'
+            : 'border-pm-border hover:border-pm-accent/50 bg-white/[0.06] hover:bg-white/10'
         }`}
       >
         <input

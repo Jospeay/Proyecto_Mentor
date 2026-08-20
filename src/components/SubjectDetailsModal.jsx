@@ -42,8 +42,6 @@ export default function SubjectDetailsModal({
   const [editName, setEditName] = useState('');
   const [editValue, setEditValue] = useState('');
 
-  const [editValue, setEditValue] = useState('');
-
   const resources = subject.resources || [];
   const filteredResources = resources.filter((r) => r.category === activeTab);
 
@@ -194,7 +192,7 @@ export default function SubjectDetailsModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="w-full max-w-2xl bg-pm-surface/95 backdrop-blur-lg border border-pm-border rounded-pm-lg shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+            className="w-full max-w-2xl bg-white/10 backdrop-blur-lg border border-pm-border rounded-pm-lg shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
           >
             {/* Cabecera del modal */}
         <div className="px-6 py-4 border-b border-pm-border flex items-center justify-between bg-pm-card shrink-0">
@@ -216,7 +214,7 @@ export default function SubjectDetailsModal({
         </div>
 
         {/* Pestañas */}
-        <div className="flex border-b border-pm-border bg-pm-card/40 shrink-0">
+        <div className="flex border-b border-pm-border bg-white/[0.06] shrink-0">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const count = resources.filter((r) => r.category === tab.id).length;
@@ -233,8 +231,8 @@ export default function SubjectDetailsModal({
                 }}
                 className={`flex-1 py-3 px-4 text-xs font-semibold flex items-center justify-center gap-2 border-b-2 transition-all ${
                   isActive
-                    ? 'border-pm-accent text-pm-accent bg-pm-surface/50'
-                    : 'border-transparent text-pm-muted hover:text-pm-text hover:bg-pm-hover/20'
+                    ? 'border-pm-accent text-pm-accent bg-white/10'
+                    : 'border-transparent text-pm-muted hover:text-pm-text hover:bg-white/10'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -267,7 +265,7 @@ export default function SubjectDetailsModal({
           {/* Formulario manual de agregar nuevo recurso */}
           <form
             onSubmit={handleAdd}
-            className="bg-pm-card/50 border border-pm-border rounded-pm-lg p-4 space-y-3"
+            className="bg-white/[0.06] border border-pm-border rounded-pm-lg p-4 space-y-3"
           >
             <h4 className="text-xs font-bold text-pm-text flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
@@ -288,7 +286,7 @@ export default function SubjectDetailsModal({
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   placeholder="ej. Enlace de Zoom de clases"
-                  className="w-full bg-pm-surface border border-pm-border rounded-pm px-3 py-2 text-xs text-pm-text placeholder-pm-subtle focus:outline-none focus:border-pm-accent"
+                  className="w-full bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl px-3 py-2 text-xs text-pm-text placeholder-pm-subtle focus:outline-none focus:border-pm-accent"
                 />
               </div>
               <div>
@@ -300,7 +298,7 @@ export default function SubjectDetailsModal({
                   value={formValue}
                   onChange={(e) => setFormValue(e.target.value)}
                   placeholder={currentTabInfo.placeholder}
-                  className="w-full bg-pm-surface border border-pm-border rounded-pm px-3 py-2 text-xs text-pm-text placeholder-pm-subtle focus:outline-none focus:border-pm-accent"
+                  className="w-full bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl px-3 py-2 text-xs text-pm-text placeholder-pm-subtle focus:outline-none focus:border-pm-accent"
                 />
               </div>
             </div>
@@ -308,7 +306,7 @@ export default function SubjectDetailsModal({
             <div className="flex justify-end pt-1">
               <button
                 type="submit"
-                className="px-3.5 py-1.5 bg-pm-accent hover:bg-pm-accent/90 text-white rounded text-xs font-semibold flex items-center gap-1 transition-colors"
+                className="px-3.5 py-1.5 btn-primary rounded text-xs font-semibold flex items-center gap-1 transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" /> Agregar Recurso
               </button>
@@ -322,7 +320,7 @@ export default function SubjectDetailsModal({
             </h4>
 
             {filteredResources.length === 0 ? (
-              <div className="text-center py-8 bg-pm-card/20 border border-dashed border-pm-border rounded-pm-lg text-pm-subtle text-xs">
+              <div className="text-center py-8 bg-white/[0.06] border border-dashed border-pm-border rounded-pm-lg text-pm-subtle text-xs">
                 No hay recursos en esta categoría. Agrega uno arriba o arrastra un archivo.
               </div>
             ) : (

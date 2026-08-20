@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Bot, Send, Sparkles, Key, Check, RefreshCw, User } from 'lucide-react';
+import { Bot, Send, Sparkles, Key, Check, User } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { queryMentorAI, getGeminiApiKey, saveGeminiApiKey } from '../services/aiService';
 
 /**
@@ -86,18 +88,18 @@ export default function MentorAiChat({ mentorState }) {
   ];
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-pm-lg shadow-2xl overflow-hidden flex flex-col h-[430px] transition-all duration-200">
+    <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl shadow-glass overflow-hidden flex flex-col h-[430px] transition-all duration-300">
       {/* Encabezado del Chat */}
-      <div className="px-4 py-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shadow-sm">
+      <div className="px-4 py-4 bg-white/5 border-b border-white/10 flex items-center justify-between">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
             <Bot className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-medium text-slate-100 flex items-center gap-1.5">
+            <h3 className="text-base font-semibold text-white flex items-center gap-1.5">
               Tutor Mentor <Sparkles className="w-4 h-4 text-emerald-400 fill-emerald-400" />
             </h3>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-pm-muted">
               {getGeminiApiKey() ? 'Conectado a Google Gemini Cloud' : 'Asistente Académico Activo'}
             </p>
           </div>
@@ -105,7 +107,7 @@ export default function MentorAiChat({ mentorState }) {
 
         <button
           onClick={() => setShowKeyModal(true)}
-          className="px-2.5 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 border border-slate-700 shadow-sm"
+          className="px-3 py-1.5 rounded-full btn-ghost text-xs flex items-center gap-1.5"
           title="Configurar clave API opcional de Gemini"
         >
           <Key className="w-3.5 h-3.5 text-emerald-400" /> Clave API
@@ -120,26 +122,28 @@ export default function MentorAiChat({ mentorState }) {
             className={`flex items-start gap-2.5 ${msg.sender === 'user' ? 'flex-row-reverse' : ''}`}
           >
             <div
-              className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs shadow-sm ${
+              className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs ${
                 msg.sender === 'user'
-                  ? 'bg-slate-700 text-slate-200'
-                  : 'bg-slate-800 border border-slate-700 text-emerald-400'
+                  ? 'bg-white/10 border border-white/10 text-pm-text'
+                  : 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-glow-emerald'
               }`}
             >
               {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
 
             <div
-              className={`max-w-[82%] rounded-2xl p-3.5 text-[13px] leading-relaxed transition-all font-medium ${
+              className={`max-w-[82%] rounded-2xl p-3.5 text-[13px] leading-relaxed transition-all ${
                 msg.sender === 'user'
-                  ? 'bg-gradient-to-r from-emerald-600 to-teal-500 text-white rounded-tr-none shadow-md'
-                  : 'bg-slate-800 border border-slate-700 text-slate-200 rounded-tl-none whitespace-pre-wrap shadow-md'
+                  ? 'bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-tr-sm shadow-lg shadow-emerald-500/25'
+                  : 'bg-white/5 border border-white/10 text-pm-text rounded-tl-sm shadow-glass'
               }`}
             >
-              {msg.text}
+              <div className="chat-markdown">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.text}</ReactMarkdown>
+              </div>
               <div
                 className={`text-[10px] mt-1.5 text-right opacity-60 ${
-                  msg.sender === 'user' ? 'text-white' : 'text-slate-400'
+                  msg.sender === 'user' ? 'text-white' : 'text-pm-muted'
                 }`}
               >
                 {msg.timestamp}
@@ -150,10 +154,10 @@ export default function MentorAiChat({ mentorState }) {
 
         {loading && (
           <div className="flex items-start gap-2.5">
-            <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs shadow-sm bg-slate-800 border border-slate-700 text-emerald-400">
+            <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-xs bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-glow-emerald">
               <Bot className="w-4 h-4" />
             </div>
-            <div className="bg-slate-800 border border-slate-700 text-slate-200 rounded-2xl rounded-tl-none px-4 py-3.5 shadow-md flex items-center space-x-1.5 w-fit">
+            <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-sm px-4 py-3.5 shadow-glass flex items-center space-x-1.5 w-fit">
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
               <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
@@ -164,13 +168,13 @@ export default function MentorAiChat({ mentorState }) {
       </div>
 
       {/* Sugerencias Rápidas */}
-      <div className="px-4 py-3 bg-slate-900/50 border-t border-slate-800 flex items-center space-x-2 overflow-x-auto no-scrollbar">
+      <div className="px-4 py-3 bg-white/5 border-t border-white/10 flex items-center space-x-2 overflow-x-auto no-scrollbar">
         {quickPrompts.map((prompt, idx) => (
           <button
             key={idx}
             onClick={() => handleSend(prompt)}
             disabled={loading}
-            className="shrink-0 px-3 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-[11px] text-slate-300 hover:bg-slate-700 hover:text-white hover:scale-105 transition-all duration-200 active:scale-95 shadow-sm font-medium"
+            className="shrink-0 px-3 py-1.5 rounded-full btn-ghost text-[11px] hover:scale-105 active:scale-95 font-medium"
           >
             {prompt}
           </button>
@@ -183,19 +187,19 @@ export default function MentorAiChat({ mentorState }) {
           e.preventDefault();
           handleSend();
         }}
-        className="p-3 bg-slate-900 border-t border-slate-800 flex items-center space-x-2"
+        className="p-3 bg-white/5 border-t border-white/10 flex items-center space-x-2"
       >
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Escribe a tu Mentor sobre tareas, inasistencias o repasos..."
-          className="flex-1 bg-slate-800 border border-slate-700 rounded-full px-4 py-2.5 text-[13px] text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all shadow-inner"
+          className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-[13px] text-pm-text placeholder:text-pm-subtle focus:outline-none focus:border-emerald-400/50 focus:bg-white/10 transition-all duration-300"
         />
         <button
           type="submit"
           disabled={!input.trim() || loading}
-          className="p-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:opacity-90 disabled:opacity-40 text-white rounded-full transition-transform active:scale-95 shadow-md"
+          className="p-2.5 btn-primary disabled:opacity-40 rounded-full active:scale-95"
         >
           <Send className="w-4 h-4" />
         </button>
@@ -204,7 +208,7 @@ export default function MentorAiChat({ mentorState }) {
       {/* Modal Ajustes API Key */}
       {showKeyModal && (
         <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-pm-surface border border-pm-border rounded-pm-lg p-5 max-w-md w-full space-y-4 shadow-2xl">
+          <div className="bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-5 max-w-md w-full space-y-4 shadow-glass">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-pm-text flex items-center gap-2">
                 <Key className="w-4 h-4 text-pm-accent" /> Clave API de Google Gemini (Opcional)
@@ -218,7 +222,7 @@ export default function MentorAiChat({ mentorState }) {
             </div>
 
             <p className="text-xs text-pm-muted leading-relaxed">
-              Puedes ingresar tu clave personal gratuita de Google Gemini para habilitar el modelo avanzado en la nube. Si dejas este campo vacío, la app usará el **Motor Mentor Local**.
+              Puedes ingresar tu clave personal gratuita de Google Gemini para habilitar el modelo avanzado en la nube. Si dejas este campo vacío, la app usará el <strong className="text-pm-text">Motor Mentor Local</strong>.
             </p>
 
             <div className="space-y-1.5">
@@ -228,7 +232,7 @@ export default function MentorAiChat({ mentorState }) {
                 value={apiKeyInput}
                 onChange={(e) => setApiKeyInput(e.target.value)}
                 placeholder="AIzaSy..."
-                className="w-full bg-pm-card border border-pm-border rounded-pm px-3 py-2 text-xs text-pm-text placeholder:text-pm-subtle focus:outline-none focus:border-pm-accent"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2 text-xs text-pm-text placeholder:text-pm-subtle focus:outline-none focus:border-emerald-400/50 transition-all duration-300"
               />
             </div>
 
@@ -241,7 +245,7 @@ export default function MentorAiChat({ mentorState }) {
               </button>
               <button
                 onClick={handleSaveKey}
-                className="px-4 py-1.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-xs font-medium flex items-center gap-1.5"
+                className="px-4 py-1.5 rounded-full btn-primary text-xs font-semibold flex items-center gap-1.5"
               >
                 {apiKeySaved ? <Check className="w-3.5 h-3.5" /> : null} Guardar Clave
               </button>

@@ -110,7 +110,7 @@ export default function HelpGuideModal({ isOpen, onClose, onOpenPortalModal, onO
 
   return (
     <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-pm-surface border border-pm-border rounded-pm-lg max-w-3xl w-full h-[580px] flex flex-col shadow-2xl overflow-hidden select-none">
+      <div className="bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl max-w-3xl w-full h-[580px] flex flex-col shadow-2xl overflow-hidden select-none">
         
         {/* Encabezado */}
         <div className="px-6 py-4 bg-pm-card border-b border-pm-border flex items-center justify-between">
@@ -138,7 +138,7 @@ export default function HelpGuideModal({ isOpen, onClose, onOpenPortalModal, onO
         {/* Cuerpo con Pestañas Laterales */}
         <div className="flex-1 flex overflow-hidden">
           {/* Navegación de Funciones */}
-          <div className="w-64 bg-pm-card/60 border-r border-pm-border p-3 space-y-1 overflow-y-auto shrink-0">
+          <div className="w-64 bg-white/[0.06] border-r border-pm-border p-3 space-y-1 overflow-y-auto shrink-0">
             <p className="px-2 py-1 text-[11px] font-semibold text-pm-subtle uppercase tracking-wider">
               Herramientas de la App
             </p>
@@ -195,7 +195,7 @@ export default function HelpGuideModal({ isOpen, onClose, onOpenPortalModal, onO
                         {feature.steps.map((step, idx) => (
                           <div
                             key={idx}
-                            className="flex items-start space-x-2 text-xs text-pm-text bg-pm-card/40 border border-pm-border/60 p-2.5 rounded-pm"
+                            className="flex items-start space-x-2 text-xs text-pm-text bg-white/[0.06] border border-pm-border/60 p-2.5 rounded-pm"
                           >
                             <CheckCircle2 className="w-4 h-4 text-pm-green shrink-0 mt-0.5" />
                             <span>{step}</span>

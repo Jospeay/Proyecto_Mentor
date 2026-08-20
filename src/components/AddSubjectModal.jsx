@@ -177,7 +177,7 @@ export default function AddSubjectModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="w-full max-w-lg bg-pm-surface/95 border border-pm-border rounded-pm-lg p-6 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto"
+            className="w-full max-w-lg bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-6 space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto"
           >
             {/* Cabecera */}
         <div className="flex items-center justify-between border-b border-pm-border pb-4">
@@ -322,7 +322,7 @@ export default function AddSubjectModal({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-sm font-medium transition-colors flex items-center gap-1.5"
+              className="px-4 py-2 rounded-full btn-primary text-sm font-medium transition-colors flex items-center gap-1.5"
             >
               {editingSubject ? (
                 <>

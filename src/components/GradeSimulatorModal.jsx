@@ -74,7 +74,7 @@ export default function GradeSimulatorModal({ isOpen, onClose, subject, onUpdate
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm select-none">
-      <div className="w-full max-w-2xl bg-pm-surface border border-pm-border rounded-pm-lg p-6 space-y-6 shadow-2xl animate-fadeIn">
+      <div className="w-full max-w-2xl bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-6 space-y-6 shadow-2xl animate-fadeIn">
         
         {/* Cabecera */}
         <div className="flex items-center justify-between border-b border-pm-border pb-4">
@@ -103,7 +103,7 @@ export default function GradeSimulatorModal({ isOpen, onClose, subject, onUpdate
                 max="100"
                 value={targetGrade}
                 onChange={(e) => setTargetGrade(Number(e.target.value))}
-                className="w-20 bg-pm-surface border border-pm-border rounded-pm px-3 py-1.5 text-sm font-semibold text-pm-text text-center focus:outline-none focus:border-pm-accent"
+                className="w-20 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl px-3 py-1.5 text-sm font-semibold text-pm-text text-center focus:outline-none focus:border-pm-accent"
               />
               <span className="text-xs text-pm-subtle">
                 Nota acumulada actual: <strong className="text-pm-text">{calcResult.accumulatedScore} / 100</strong>
@@ -209,7 +209,7 @@ export default function GradeSimulatorModal({ isOpen, onClose, subject, onUpdate
           </button>
           <button
             onClick={handleSave}
-            className="px-5 py-2 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-xs font-medium transition-colors"
+            className="px-5 py-2 rounded-full btn-primary text-xs font-medium transition-colors"
           >
             Guardar Configuración
           </button>

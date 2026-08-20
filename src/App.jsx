@@ -421,9 +421,9 @@ export default function App() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-pm-bg flex items-center justify-center">
-        <div className="text-center space-y-3">
-          <div className="w-8 h-8 border-2 border-pm-accent border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <div className="min-h-screen flex items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0a0a0a] to-black">
+        <div className="glass px-10 py-8 text-center space-y-3 shadow-glass">
+          <div className="w-9 h-9 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
           <p className="text-sm text-pm-muted font-medium">Iniciando Mentor...</p>
         </div>
       </div>
@@ -508,7 +508,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen bg-pm-bg text-pm-text overflow-hidden select-none">
+    <div className="flex h-screen text-pm-text overflow-hidden select-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-[#0a0a0a] to-black">
       <Toaster position="bottom-right" theme="dark" richColors />
       <Sidebar
         currentView={currentView}
@@ -528,13 +528,13 @@ export default function App() {
       />
 
       <main className="flex-1 flex flex-col h-screen overflow-y-auto">
-        <header className="sticky top-0 z-10 bg-pm-bg/95 backdrop-blur-sm border-b border-pm-border px-6 py-3 flex items-center justify-between">
-          <div className="relative w-64">
-            <Search className="w-3.5 h-3.5 text-pm-subtle absolute left-3 top-1/2 -translate-y-1/2" />
+        <header className="sticky top-0 z-10 bg-white/5 backdrop-blur-xl border-b border-white/10 px-6 py-3 flex items-center justify-between">
+          <div className="relative w-72">
+            <Search className="w-3.5 h-3.5 text-pm-subtle absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Buscar..."
-              className="w-full bg-pm-surface border border-pm-border rounded-pm pl-8 pr-3 py-1.5 text-sm text-pm-text placeholder-pm-subtle focus:outline-none focus:border-pm-accent transition-colors"
+              className="w-full bg-white/5 border border-white/10 rounded-full pl-9 pr-3 py-2 text-sm text-pm-text placeholder-pm-subtle focus:outline-none focus:border-emerald-400/50 focus:bg-white/10 transition-all duration-300"
             />
           </div>
           <button
@@ -542,7 +542,7 @@ export default function App() {
               setEditingTask(null);
               setAddTaskOpen(true);
             }}
-            className="px-3 py-1.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-sm font-medium transition-colors flex items-center gap-1.5"
+            className="px-4 py-2 rounded-full btn-primary text-sm font-semibold flex items-center gap-1.5 hover:scale-[1.03] active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" /> Nueva tarea
           </button>

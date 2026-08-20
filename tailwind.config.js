@@ -7,36 +7,59 @@ module.exports = {
   theme: {
     extend: {
       /**
-       * PALETA "OBSIDIAN SAGE" — Identidad visual propia de Mentor.
-       * Esmeralda oscuro sobre carbón cálido. Sin parecido a edtools/Linear.
+       * PALETA "AURORA GLASS" — Modern Glassmorphism / Apple UI.
+       *
+       * Las superficies (surface, card, hover, border) son capas translúcidas
+       * de blanco que flotan sobre el degradado radial oscuro del fondo; el
+       * desenfoque se aplica globalmente en index.css. Los acentos usan
+       * esmeralda/teal e índigo para los degradados de marca.
        */
       colors: {
         pm: {
-          bg:       '#0F0F12',  // Fondo principal (carbón ligeramente cálido)
-          surface:  '#18181F',  // Sidebar, paneles, tarjetas de primer nivel
-          card:     '#1F1F28',  // Tarjetas secundarias, items de lista
-          hover:    '#282833',  // Estado hover de elementos interactivos
-          border:   'rgba(255,255,255,0.07)', // Bordes extremadamente sutiles
+          bg:       '#05060A',  // Base del degradado radial (casi negro azulado)
+          surface:  '#FFFFFF0D',  // Vidrio nivel 1: sidebar, paneles, modales
+          card:     '#FFFFFF0A',  // Vidrio nivel 2: tarjetas e items de lista
+          hover:    '#FFFFFF1A',  // Estado hover de elementos interactivos
+          border:   '#FFFFFF1F',  // Borde de vidrio
 
-          // Acento principal: esmeralda sobrio
-          accent:   '#3D9A6E',  // Esmeralda oscuro (botones primarios, enlaces activos)
-          blue:     '#4B8BBE',  // Azul acero (información, enlaces secundarios)
-          red:      '#D4544E',  // Rojo terracota cálido (errores, urgencia alta)
-          amber:    '#D4A843',  // Ámbar dorado (advertencia, urgencia media)
-          green:    '#4CAF7D',  // Verde claro (éxito, completado)
+          // Acento principal: esmeralda vibrante
+          accent:   '#34D399',
+          teal:     '#14B8A6',
+          indigo:   '#6366F1',
+          blue:     '#60A5FA',
+          red:      '#F87171',
+          amber:    '#FBBF24',
+          green:    '#4ADE80',
 
           // Escala tipográfica
-          text:     '#E8E8EC',  // Texto principal (blanco cálido)
-          muted:    '#8A8A90',  // Texto secundario / labels
-          subtle:   '#5C5C64',  // Texto terciario / placeholders
+          text:     '#F1F5F9',
+          muted:    '#A8B0BF',
+          subtle:   '#6B7280',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: ['Inter', 'SF Pro Display', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       borderRadius: {
-        'pm': '8px',    // Radio estándar para tarjetas y botones
-        'pm-lg': '12px', // Radio para modales y contenedores grandes
+        'pm': '14px',     // Radio estándar para tarjetas y botones
+        'pm-lg': '24px',  // Radio para modales y contenedores grandes
+      },
+      backdropBlur: {
+        glass: '18px',
+      },
+      boxShadow: {
+        glass: '0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.06)',
+        'glow-emerald': '0 10px 30px -10px rgba(16,185,129,0.45)',
+        'glow-indigo': '0 10px 30px -10px rgba(99,102,241,0.45)',
+      },
+      keyframes: {
+        auroraFloat: {
+          '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
+          '50%': { transform: 'translate3d(0,-3%,0) scale(1.06)' },
+        },
+      },
+      animation: {
+        aurora: 'auroraFloat 18s ease-in-out infinite',
       },
     },
   },

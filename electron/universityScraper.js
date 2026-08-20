@@ -213,7 +213,11 @@ async function scrapeMoodle(page, portalUrl, username, password, progress) {
         return elements.map((el) => {
           const titleEl = el.querySelector('.event-name a, .event-name, h3, .name a, [data-region="event-name"]');
           const dateEl = el.querySelector('.date, .col-11 small, [data-region="event-date"], time');
-          const courseEl = el.querySelector('.course-name, .text-muted, small');
+
+          // El nombre del curso en el timeline aparece como enlace al curso o texto atenuado
+          const courseEl = el.querySelector(
+            'a[href*="/course/view.php"], [data-region="event-course"], .course-name, .text-muted, small'
+          );
 
           return {
             title: titleEl ? titleEl.textContent.trim() : '',
@@ -244,7 +248,9 @@ async function scrapeMoodle(page, portalUrl, username, password, progress) {
           return elements.map((el) => {
             const titleEl = el.querySelector('.name a, .referer a, h3 a, .event-name');
             const dateEl = el.querySelector('.date, time, .col-11');
-            const courseEl = el.querySelector('.course, .text-muted');
+            const courseEl = el.querySelector(
+              'a[href*="/course/view.php"], .course a, .course, [data-region="event-course"], .text-muted'
+            );
 
             return {
               title: titleEl ? titleEl.textContent.trim() : el.textContent.trim().slice(0, 80),
@@ -266,14 +272,23 @@ async function scrapeMoodle(page, portalUrl, username, password, progress) {
   try {
       // Obtener lista de cursos del usuario
       const courseLinks = await page.$$eval(
-        '.course-listitem a[href*="/course/view.php"], a.coursename, .courses .coursebox a',
-        (links) => links.map((a) => a.href).filter(Boolean)
+        '.course-listitem a[href*="/course/view.php"], a.coursename, .courses .coursebox a, [data-region="course-content"] a[href*="/course/view.php"], a[href*="/course/view.php"]',
+        (links) => {
+          const seen = new Set();
+          return links
+            .map((a) => a.href.split('&')[0])
+            .filter((href) => {
+              if (!href || seen.has(href)) return false;
+              seen.add(href);
+              return true;
+            });
+        }
       ).catch(() => []);
 
-      for (const courseUrl of courseLinks.slice(0, 8)) { // Máximo 8 cursos
+      for (const courseUrl of courseLinks.slice(0, 12)) { // Máximo 12 cursos
         try {
           await page.goto(courseUrl, { waitUntil: 'domcontentloaded' });
-          const courseName = await page.$eval('h1, .page-header-headings h1', (el) => el.textContent.trim()).catch(() => 'Curso');
+          const courseName = await extractMoodleCourseName(page);
 
           const assignLinks = await page.$$eval(
             'a[href*="/mod/assign/view.php"], a[href*="/mod/quiz/view.php"], a[href*="/mod/forum/view.php"]',
@@ -291,6 +306,17 @@ async function scrapeMoodle(page, portalUrl, username, password, progress) {
               url: assign.url,
             });
           }
+
+          // Reetiquetar tareas del timeline/calendario que quedaron sin curso
+          // pero cuya URL pertenece a este curso (mismo id de curso en Moodle).
+          const courseId = new URL(courseUrl).searchParams.get('id');
+          if (courseId && courseName) {
+            for (const t of tasks) {
+              if (!t.subject && t.url && t.url.includes(`course=${courseId}`)) {
+                t.subject = courseName;
+              }
+            }
+          }
         } catch {
           continue;
         }
@@ -301,6 +327,51 @@ async function scrapeMoodle(page, portalUrl, username, password, progress) {
 
   // Normalizar y deduplicar tareas
   return normalizeTasks(tasks, 'moodle', portalUrl);
+}
+
+/**
+ * Extrae el nombre del curso de una página de Moodle probando, en orden:
+ *   1. El breadcrumb de navegación superior (enlace a /course/view.php).
+ *   2. El encabezado de la página (h1 / .page-header-headings).
+ *   3. El bloque de navegación lateral o el título del documento.
+ *
+ * Devuelve algo como "CEP0004 - B1 COMMUNICATIVE ENGLISH" para que el
+ * emparejador con las asignaturas del usuario tenga tanto código como nombre.
+ */
+async function extractMoodleCourseName(page) {
+  const candidates = await page.evaluate(() => {
+    const texts = [];
+    const push = (value) => {
+      const text = (value || '').replace(/\s+/g, ' ').trim();
+      if (text && text.length > 2) texts.push(text);
+    };
+
+    // 1. Breadcrumb superior (Moodle 3.x: .breadcrumb, Moodle 4.x: nav[aria-label] ol)
+    document
+      .querySelectorAll(
+        '.breadcrumb a[href*="/course/view.php"], nav[aria-label] a[href*="/course/view.php"], #page-navbar a[href*="/course/view.php"], .breadcrumb-item a[title]'
+      )
+      .forEach((el) => push(el.getAttribute('title') || el.textContent));
+
+    // 2. Encabezado / título del curso
+    document
+      .querySelectorAll('.page-header-headings h1, #page-header h1, header h1, h1')
+      .forEach((el) => push(el.textContent));
+
+    // 3. Bloque de navegación / cabecera del curso
+    document
+      .querySelectorAll('.block_navigation .type_course a, .coursename, .course-title, [data-region="course-name"]')
+      .forEach((el) => push(el.textContent));
+
+    // 4. Título del documento como último recurso ("Curso: B1 COMMUNICATIVE ENGLISH")
+    push(document.title.replace(/^\s*(curso|course)\s*:\s*/i, ''));
+
+    return texts;
+  }).catch(() => []);
+
+  const blacklist = /^(inicio|home|dashboard|mis cursos|my courses|area personal|área personal|cursos|courses|p[aá]gina principal)$/i;
+  const best = candidates.find((text) => !blacklist.test(text));
+  return best || '';
 }
 
 // =============================================================================
@@ -425,7 +496,9 @@ function normalizeTasks(rawTasks, platform, portalUrl) {
     .map((t) => ({
       id: `scraper-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       title: t.title.slice(0, 120),
-      subjectName: t.subject || 'Sin materia identificada',
+      subjectRaw: (t.subject || '').replace(/\s+/g, ' ').trim(),
+      subjectCode: extractCourseCode(t.subject || t.title || ''),
+      subjectName: cleanSubjectName(t.subject) || 'Sin materia identificada',
       dueDate: parseDateString(t.dueDate),
       category: categorizeTask(t.title),
       detectedAt: new Date().toISOString(),
@@ -433,6 +506,21 @@ function normalizeTasks(rawTasks, platform, portalUrl) {
       portalUrl: t.url || portalUrl,
       source: platform,
     }));
+}
+
+/** Extrae códigos de curso tipo "CEP0004" o "MAT-101". */
+function extractCourseCode(text) {
+  const match = String(text || '').toUpperCase().match(/\b([A-Z]{2,6}[-_ ]?\d{3,5})\b/);
+  return match ? match[1].replace(/[-_ ]/g, '') : '';
+}
+
+/** Limpia el texto del curso extraído de Moodle (grupos, periodos, separadores). */
+function cleanSubjectName(text) {
+  return String(text || '')
+    .replace(/\s*[»›>|/]\s*/g, ' ')
+    .replace(/\((?:[^)]*)\)/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 /**

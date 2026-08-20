@@ -4,38 +4,120 @@
 
 /**
  * PROYECTO MENTOR — Estilos globales.
- * Paleta "Obsidian Sage": Esmeralda oscuro sobre carbón cálido.
+ * Estética "Aurora Glass": glassmorphism sobre un degradado radial profundo.
  */
 
 @layer base {
-  body {
-    @apply bg-pm-bg text-pm-text font-sans antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  html,
+  body,
+  #root {
+    @apply h-full;
   }
+
+  body {
+    @apply text-pm-text font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    background-color: #000;
+    background-image:
+      radial-gradient(60rem 40rem at 15% -10%, rgba(99, 102, 241, 0.20), transparent 60%),
+      radial-gradient(55rem 38rem at 85% 0%, rgba(20, 184, 166, 0.16), transparent 62%),
+      radial-gradient(ellipse at top, #0f172a 0%, #0a0a0a 55%, #000 100%);
+    background-attachment: fixed;
+  }
+
+  /* Textura sutil de ruido/granulado sobre el degradado */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+    background-image:
+      repeating-radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 3px);
+    background-size: 4px 4px;
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+@layer components {
+  /* Vidrio esmerilado reutilizable */
+  .glass {
+    @apply bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl;
+  }
+  .glass-strong {
+    @apply bg-white/10 border border-white/15 backdrop-blur-xl rounded-2xl;
+  }
+
+  /* Botón premium con degradado esmeralda */
+  .btn-primary {
+    @apply bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500
+           text-white shadow-lg shadow-emerald-500/25 transition-all duration-300;
+  }
+  .btn-ghost {
+    @apply bg-white/5 hover:bg-white/10 border border-white/10 text-pm-text transition-all duration-300;
+  }
+}
+
+/**
+ * Desenfoque global de las superficies de vidrio: cualquier elemento pintado con
+ * los tokens translúcidos (pm-surface / pm-card / pm-hover) se comporta como cristal.
+ */
+[class*="bg-pm-surface"],
+[class*="bg-pm-card"],
+[class*="bg-pm-hover"],
+[class*="bg-white/"] {
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
 }
 
 /* Scrollbar minimalista */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 /* Focus ring con acento esmeralda */
 *:focus-visible {
-  outline: 2px solid #3D9A6E;
+  outline: 2px solid #34D399;
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: 10px;
 }
+
+/* Markdown renderizado dentro de las burbujas del chat */
+.chat-markdown > :first-child { margin-top: 0; }
+.chat-markdown > :last-child { margin-bottom: 0; }
+.chat-markdown p { margin: 0.35rem 0; }
+.chat-markdown strong { @apply font-semibold text-white; }
+.chat-markdown em { @apply italic; }
+.chat-markdown ul { @apply list-disc pl-4 my-1.5 space-y-0.5; }
+.chat-markdown ol { @apply list-decimal pl-4 my-1.5 space-y-0.5; }
+.chat-markdown h1,
+.chat-markdown h2,
+.chat-markdown h3 { @apply font-semibold text-white mt-2 mb-1 text-[13px]; }
+.chat-markdown a { @apply text-emerald-300 underline underline-offset-2; }
+.chat-markdown code { @apply bg-black/40 px-1 py-0.5 rounded text-[11.5px] font-mono; }
+.chat-markdown pre { @apply bg-black/40 p-2.5 rounded-xl overflow-x-auto my-2; }
+.chat-markdown pre code { @apply bg-transparent p-0; }
+.chat-markdown blockquote { @apply border-l-2 border-emerald-400/50 pl-2.5 italic text-white/80 my-1.5; }
+.chat-markdown table { @apply w-full text-[11.5px] my-2; }
+.chat-markdown th,
+.chat-markdown td { @apply border border-white/10 px-1.5 py-1 text-left; }
+.chat-markdown hr { @apply border-white/10 my-2; }
 
 /* Animaciones utilitarias */
 @keyframes fadeIn {
@@ -50,7 +132,9 @@
 .animate-fade-in {
   animation: fadeIn 0.25s ease-out both;
 }
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out both;
+}
 .animate-slide-up {
   animation: slideUp 0.3s ease-out both;
 }
-

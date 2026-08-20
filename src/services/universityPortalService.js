@@ -12,6 +12,8 @@
  * ==============================================================================
  */
 
+import { attachSubjectIds } from '../utils/subjectMatcher';
+
 const LOCAL_STORAGE_KEY = 'mentor_university_portal_config';
 const NOTICES_STORAGE_KEY = 'mentor_university_notices';
 const AI_ALERTS_KEY = 'mentor_ai_latest_alert';
@@ -92,12 +94,16 @@ export async function syncUniversityTasksReal(config, studentState = {}) {
     const result = await window.mentorAPI.syncUniversityPortal(config);
 
     if (result && result.success && result.tasks) {
-      // 2. Si se encontraron tareas nuevas, ejecutar el Cerebro IA
+      // 2. Emparejar el curso extraído de Moodle con las asignaturas del usuario
+      //    para que la tarea entre directamente en su columna del Kanban.
+      const tasks = attachSubjectIds(result.tasks, studentState.subjects || []);
+
+      // 3. Si se encontraron tareas nuevas, ejecutar el Cerebro IA
       if (window.mentorAPI.analyzeWorkload) {
         try {
           const geminiApiKey = localStorage.getItem('mentor_gemini_api_key') || '';
           const analysis = await window.mentorAPI.analyzeWorkload({
-            newTasks: result.tasks,
+            newTasks: tasks,
             existingTasks: studentState.tasks || [],
             subjects: studentState.subjects || [],
             geminiApiKey,
@@ -107,7 +113,7 @@ export async function syncUniversityTasksReal(config, studentState = {}) {
             saveLatestAiAlert({
               ...analysis,
               timestamp: new Date().toISOString(),
-              taskCount: result.tasks.length,
+              taskCount: tasks.length,
             });
           }
         } catch (aiErr) {
@@ -117,7 +123,7 @@ export async function syncUniversityTasksReal(config, studentState = {}) {
 
       return {
         success: true,
-        tasks: result.tasks,
+        tasks,
       };
     }
 
@@ -132,7 +138,7 @@ export async function syncUniversityTasksReal(config, studentState = {}) {
   const simulated = simulateNewUniversityTask(studentState.subjects || []);
   return {
     success: true,
-    tasks: [simulated],
+    tasks: attachSubjectIds([simulated], studentState.subjects || []),
     isSimulated: true,
   };
 }
@@ -207,15 +213,19 @@ export function simulateNewUniversityTask(subjects = []) {
 /**
  * Convierte un aviso detectado en una tarea del estudiante.
  */
-export function convertNoticeToTask(notice) {
+export function convertNoticeToTask(notice, subjects = []) {
+  const [matched] = notice.subjectId ? [notice] : attachSubjectIds([notice], subjects);
+
   return {
     id: `task-uam-${Date.now()}`,
-    title: notice.title,
-    subject: notice.subjectName,
-    dueDate: notice.dueDate,
+    title: matched.title,
+    subjectId: matched.subjectId || null,
+    subject: matched.subjectName,
+    dueDate: matched.dueDate,
     urgency: 'high',
     status: 'todo',
     completed: false,
+    category: matched.category || 'Actividad',
     notes: `Importado automáticamente desde ${notice.portalUrl || 'Portal Universitario'}.`,
     createdAt: new Date().toISOString(),
   };

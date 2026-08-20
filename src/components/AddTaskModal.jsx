@@ -51,8 +51,6 @@ export default function AddTaskModal({
     setError('');
   }, [editingTask, isOpen, subjects]);
 
-  }, [editingTask, isOpen, subjects]);
-
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
@@ -107,7 +105,7 @@ export default function AddTaskModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="w-full max-w-md bg-pm-surface/95 border border-pm-border rounded-pm-lg p-6 space-y-5 shadow-2xl"
+            className="w-full max-w-md bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-6 space-y-5 shadow-2xl"
           >
             {/* Cabecera */}
         <div className="flex items-center justify-between">
@@ -232,7 +230,7 @@ export default function AddTaskModal({
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-sm font-medium transition-colors flex items-center gap-1.5"
+              className="px-4 py-2 rounded-full btn-primary text-sm font-medium transition-colors flex items-center gap-1.5"
             >
               {editingTask ? (
                 <>

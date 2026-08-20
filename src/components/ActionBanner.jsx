@@ -17,7 +17,7 @@ export default function ActionBanner({ action, onStartStudySession, onOpenAddTas
   // Estado vacío: no hay tareas pendientes
   if (!action) {
     return (
-      <div className="bg-pm-surface border border-pm-border rounded-pm-lg p-6 flex items-center justify-between">
+      <div className="bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-6 flex items-center justify-between">
         <div>
           <p className="text-sm font-medium text-pm-text">Sin tareas pendientes</p>
           <p className="text-xs text-pm-muted mt-1">
@@ -26,7 +26,7 @@ export default function ActionBanner({ action, onStartStudySession, onOpenAddTas
         </div>
         <button
           onClick={onOpenAddTaskModal}
-          className="px-4 py-2 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-sm font-medium transition-colors flex items-center gap-2 shrink-0"
+          className="px-4 py-2 rounded-full btn-primary text-sm font-medium transition-colors flex items-center gap-2 shrink-0"
         >
           <Plus className="w-4 h-4" />
           Añadir tarea
@@ -37,7 +37,7 @@ export default function ActionBanner({ action, onStartStudySession, onOpenAddTas
 
   // Estado activo: hay una tarea prioritaria
   return (
-    <div className="bg-pm-surface border border-pm-border rounded-pm-lg p-6">
+    <div className="bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 
         <div className="space-y-2 min-w-0">
@@ -67,7 +67,7 @@ export default function ActionBanner({ action, onStartStudySession, onOpenAddTas
         {/* Botón de acción */}
         <button
           onClick={() => onStartStudySession(action)}
-          className="px-5 py-2.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-sm font-medium transition-colors flex items-center gap-2 shrink-0"
+          className="px-5 py-2.5 rounded-full btn-primary text-sm font-medium transition-colors flex items-center gap-2 shrink-0"
         >
           Iniciar sesión
           <ArrowRight className="w-4 h-4" />

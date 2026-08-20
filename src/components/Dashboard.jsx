@@ -40,37 +40,37 @@ export default function Dashboard({
       {/* Encabezado */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-semibold text-pm-text">
+          <h2 className="text-2xl font-semibold tracking-tight bg-gradient-to-r from-white via-white to-emerald-200 bg-clip-text text-transparent">
             Hola, {user?.displayName || 'Estudiante'}
           </h2>
-          <p className="text-sm text-pm-muted mt-0.5">
+          <p className="text-sm text-pm-muted mt-1">
             {subjects.length} asignaturas · {pending.length} tareas pendientes
           </p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={onOpenHelpGuideModal}
-            className="px-3 py-1.5 rounded-pm bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/30 text-xs text-amber-400 font-medium transition-all flex items-center gap-1.5"
+            className="px-3.5 py-2 rounded-full bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/25 text-xs text-amber-300 font-medium transition-all duration-300 flex items-center gap-1.5"
             title="Ver Guía del Estudiante y Centro de Ayuda"
           >
             <HelpCircle className="w-3.5 h-3.5" /> Guía de Uso
           </button>
           <button
             onClick={onOpenUniversityPortalModal}
-            className="px-3 py-1.5 rounded-pm bg-pm-card hover:bg-pm-hover border border-pm-border text-xs text-pm-accent hover:text-white transition-colors flex items-center gap-1.5 font-medium"
+            className="px-3.5 py-2 rounded-full btn-ghost text-xs text-emerald-300 flex items-center gap-1.5 font-medium"
             title="Conectar o Simular UAM Virtual (Moodle)"
           >
             <Globe className="w-3.5 h-3.5" /> UAM Virtual
           </button>
           <button
             onClick={onOpenAddSubjectModal}
-            className="px-3 py-1.5 rounded-pm border border-pm-border text-xs text-pm-muted hover:text-pm-text hover:bg-pm-hover transition-colors flex items-center gap-1.5"
+            className="px-3.5 py-2 rounded-full btn-ghost text-xs flex items-center gap-1.5"
           >
             <Plus className="w-3.5 h-3.5" /> Asignatura
           </button>
           <button
             onClick={onOpenAddTaskModal}
-            className="px-3 py-1.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-xs font-medium transition-colors flex items-center gap-1.5"
+            className="px-4 py-2 rounded-full btn-primary text-xs font-semibold flex items-center gap-1.5 hover:scale-[1.03] active:scale-95"
           >
             <Plus className="w-3.5 h-3.5" /> Tarea
           </button>
@@ -137,9 +137,9 @@ export default function Dashboard({
       )}
 
       {/* Banner del Portal UAM Virtual */}
-      <div className="bg-pm-surface border border-pm-accent/30 rounded-pm-lg p-3.5 flex items-center justify-between gap-3 bg-gradient-to-r from-pm-card via-pm-surface to-pm-card shadow-sm hover:border-pm-accent/50 transition-all">
+      <div className="bg-white/5 border border-emerald-400/20 backdrop-blur-md rounded-2xl p-4 flex items-center justify-between gap-3 shadow-glass hover:border-emerald-400/40 transition-all duration-300">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-full bg-pm-accent/20 border border-pm-accent/40 flex items-center justify-center text-pm-accent shrink-0">
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-glow-emerald shrink-0">
             <Globe className="w-4 h-4" />
           </div>
           <div>
@@ -153,7 +153,7 @@ export default function Dashboard({
         </div>
         <button
           onClick={onOpenUniversityPortalModal}
-          className="px-3 py-1.5 rounded bg-pm-hover border border-pm-border text-xs text-pm-text hover:bg-pm-border transition-colors shrink-0"
+          className="px-3.5 py-2 rounded-full btn-ghost text-xs shrink-0"
         >
           Probar / Ajustar UAM
         </button>
@@ -184,7 +184,7 @@ export default function Dashboard({
 
       {/* Estado vacío principal */}
       {subjects.length === 0 && pending.length === 0 ? (
-        <div className="bg-pm-surface border border-pm-border rounded-pm-lg p-10 text-center space-y-4">
+        <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-10 text-center space-y-4 shadow-glass">
           <BookOpen className="w-10 h-10 text-pm-subtle mx-auto" />
           <div>
             <h3 className="text-base font-semibold text-pm-text">
@@ -196,7 +196,7 @@ export default function Dashboard({
           </div>
           <button
             onClick={onOpenAddSubjectModal}
-            className="px-5 py-2.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-sm font-medium transition-colors inline-flex items-center gap-2"
+            className="px-6 py-3 rounded-full btn-primary text-sm font-semibold inline-flex items-center gap-2 hover:scale-[1.03] active:scale-95"
           >
             <Plus className="w-4 h-4" /> Añadir mi primera asignatura
           </button>
@@ -228,7 +228,7 @@ export default function Dashboard({
             </div>
 
             {pending.length === 0 ? (
-              <p className="text-sm text-pm-muted bg-pm-surface border border-pm-border rounded-pm p-4 text-center">
+              <p className="text-sm text-pm-muted bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 text-center">
                 No tienes tareas pendientes. Crea una nueva para empezar.
               </p>
             ) : (
@@ -263,10 +263,10 @@ export default function Dashboard({
                 return (
                   <div
                     key={sub.id}
-                    className={`bg-pm-surface border rounded-pm p-4 space-y-2 transition-colors ${
+                    className={`bg-white/5 backdrop-blur-md border rounded-2xl p-4 space-y-2 shadow-glass hover:bg-white/10 transition-all duration-300 ${
                       absenceInfo.riskLevel === 'danger' ? 'border-pm-red/50' :
                       absenceInfo.riskLevel === 'warning' ? 'border-pm-amber/50' :
-                      'border-pm-border'
+                      'border-white/10'
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -313,9 +313,9 @@ export default function Dashboard({
 
 function MetricCard({ label, value, small }) {
   return (
-    <div className="bg-pm-surface border border-pm-border rounded-pm p-4">
+    <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 shadow-glass hover:bg-white/10 hover:-translate-y-0.5 transition-all duration-300">
       <p className="text-xs text-pm-muted">{label}</p>
-      <p className={`font-semibold text-pm-text mt-1 ${small ? 'text-sm truncate' : 'text-xl'}`}>
+      <p className={`font-semibold text-white mt-1 ${small ? 'text-sm truncate' : 'text-2xl'}`}>
         {value}
       </p>
     </div>
@@ -330,7 +330,7 @@ function TaskRow({ task, onComplete, onStudy }) {
   };
 
   return (
-    <div className="flex items-center gap-3 bg-pm-surface border border-pm-border rounded-pm px-4 py-3 group hover:bg-pm-hover transition-colors">
+    <div className="flex items-center gap-3 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl px-4 py-3 group hover:bg-white/10 hover:border-white/20 transition-all duration-300">
       <span className={`w-2 h-2 rounded-full shrink-0 ${urgencyColor[task.urgency] || 'bg-pm-subtle'}`} />
 
       <div className="flex-1 min-w-0">

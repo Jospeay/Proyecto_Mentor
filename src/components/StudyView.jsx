@@ -120,7 +120,7 @@ export default function StudyView({ activeTask, onCompleteSession, dailyStudyMin
       </div>
 
       {/* TOGGLE ELEGANTE HARDCORE MODE */}
-      <div className="w-full bg-pm-surface border border-pm-border rounded-pm p-3 flex items-center justify-between">
+      <div className="w-full bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-3 flex items-center justify-between">
         <div className="flex items-center space-x-2.5">
           <Shield className={`w-4 h-4 ${hardcoreMode ? 'text-pm-red' : 'text-pm-subtle'}`} />
           <div>
@@ -148,7 +148,7 @@ export default function StudyView({ activeTask, onCompleteSession, dailyStudyMin
       )}
 
       {/* Selector de modos */}
-      <div className="flex gap-1 bg-pm-surface border border-pm-border rounded-pm p-1">
+      <div className="flex gap-1 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-1">
         {MODES.map((m) => (
           <button
             key={m.id}

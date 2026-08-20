@@ -56,7 +56,7 @@ export default function AgendaView({ scheduleEvents = [], onStartStudySession })
         </div>
 
         {/* Filtros */}
-        <div className="flex gap-1 bg-pm-surface border border-pm-border rounded-pm p-1">
+        <div className="flex gap-1 bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-1">
           {filters.map((f) => (
             <button
               key={f.id}
@@ -75,7 +75,7 @@ export default function AgendaView({ scheduleEvents = [], onStartStudySession })
 
       {/* Lista de eventos */}
       {filtered.length === 0 ? (
-        <div className="bg-pm-surface border border-pm-border rounded-pm-lg p-10 text-center">
+        <div className="bg-white/10 border border-white/15 backdrop-blur-2xl rounded-2xl p-10 text-center">
           <CalendarIcon className="w-8 h-8 text-pm-subtle mx-auto mb-3" />
           <p className="text-sm text-pm-muted">No hay eventos en esta categoría.</p>
           <p className="text-xs text-pm-subtle mt-1">
@@ -87,7 +87,7 @@ export default function AgendaView({ scheduleEvents = [], onStartStudySession })
           {filtered.map((evt) => (
             <div
               key={evt.id}
-              className={`bg-pm-surface border border-pm-border rounded-pm p-4 border-l-2 ${typeAccent[evt.type] || 'border-l-pm-subtle'} flex items-center justify-between gap-4`}
+              className={`bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-4 border-l-2 ${typeAccent[evt.type] || 'border-l-pm-subtle'} flex items-center justify-between gap-4`}
             >
               <div className="min-w-0">
                 <div className="flex items-center gap-2 mb-1">
@@ -107,7 +107,7 @@ export default function AgendaView({ scheduleEvents = [], onStartStudySession })
               {evt.type === 'study-session' && (
                 <button
                   onClick={() => onStartStudySession({ title: evt.title, subject: evt.subject, estimatedMinutes: 45 })}
-                  className="px-3 py-1.5 rounded-pm bg-pm-accent hover:bg-pm-accent/90 text-white text-xs font-medium transition-colors shrink-0"
+                  className="px-3 py-1.5 rounded-full btn-primary text-xs font-medium transition-colors shrink-0"
                 >
                   Iniciar
                 </button>
