@@ -1,0 +1,17 @@
+node_modules
+node_modules/
+dist
+dist/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+
+# Archivos locales de desarrollo/debug
+build_output*.txt
+*.ps1
+test-*.js
+evidencias_layout/
+notes_check.txt
+original_notes.txt
